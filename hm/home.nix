@@ -22,6 +22,7 @@
 			pkgs.rofi-wayland
 			pkgs.wl-clipboard
 			pkgs.waybar
+			pkgs.gh
 	];
 			
  	programs.bash = {
