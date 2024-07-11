@@ -143,10 +143,8 @@ security.pam.loginLimits = [
     git
     git-crypt
     curl
-#	waybar
-#	wl-clipboard
- # 	rofi-wayland
    btrfs-progs
+    gh
 
   ];
 
