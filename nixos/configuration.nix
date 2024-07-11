@@ -141,10 +141,11 @@ security.pam.loginLimits = [
     wget
     htop
     git
+    git-crypt
     curl
-	waybar
-	wl-clipboard
-  	rofi-wayland
+#	waybar
+#	wl-clipboard
+ # 	rofi-wayland
    btrfs-progs
 
   ];
@@ -180,7 +181,7 @@ security.pam.loginLimits = [
 #Environment variablle
 environment.sessionVariables = {
 	WLR_NO_HARDWARE_CURSORS= "1";
-	NIXPKGS_ALLOW_UNFREE="1";	
+#	NIXPKGS_ALLOW_UNFREE="1";	
 	};
 
 }

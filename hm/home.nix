@@ -1,29 +1,35 @@
+{ config, pkgs, ... } :
+
+#users.users.anthony.isNormalUser = true;
 {
-  description = "Home Manager configuration of anthony";
-  inputs = {
-    # Specify the source of Home Manager and Nixpkgs.
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
-
-    home-manager = {
-      url = "github:nix-community/home-manager/release-24.05";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-  };
-
-  outputs = { nixpkgs, home-manager, ... }:
-    let
-      system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};
-    in {
-      homeConfigurations."anthony" = home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
-
-        # Specify your home configuration modules here, for example,
-        # the path to your home.nix.
-        modules = [ ./home.nix ];
-
-        # Optionally use extraSpecialArgs
-        # to pass through arguments to home.nix
-      };
-    };
-}
+	home.username = "anthony";
+	home.homeDirectory = "/home/anthony";
+	home.stateVersion = "24.05";
+	home.packages = [ 
+			pkgs.darktable
+			pkgs.sway
+			pkgs.feh
+			pkgs.qimgv
+			(pkgs.blender.override { cudaSupport = true ;} )
+			pkgs.pcmanfm
+			pkgs.yazi
+			pkgs.wofi
+			pkgs.hyprland
+			pkgs.hyprpaper
+			pkgs.autotiling
+			pkgs.ardour
+			pkgs.kitty
+			pkgs.rofi-wayland
+			pkgs.wl-clipboard
+			pkgs.waybar
+	];
+			
+ 	programs.bash = {
+		enable =true;
+		shellAliases = {
+			sww = "sway --unsupported-gpu";
+		};
+	};	
+	programs.home-manager.enable  = true;	
+	nixpkgs.config.allowUnfree = true;
+}	
