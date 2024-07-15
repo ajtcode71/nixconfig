@@ -49,9 +49,18 @@ nix.settings.allowed-users = [ "anthony"];
     LC_TIME = "en_AU.UTF-8";
   };
 
+
+fileSystems."/mnt/workdisk" = {
+	device = "/dev/nvme0n1p2";
+	fsType = "ntfs-3g";
+	options = [ "rw" "uid=1000"];
+};
+
+
   # Enable the X11 windowing system.
 
-services.xserver.videoDrivers = ["nvidia"];
+services.xserver.videoDrivers = ["nvidia" ];
+#services.xserver.deviceSection = '' Option "TearFree" "true" '';
 
 services.gvfs.enable = true;
 services.udisks2.enable = true;
@@ -63,10 +72,11 @@ hardware.nvidia = {
 #	powerManagerment.finegrained = false;
 	open = false;
 	nvidiaSettings = true;
-	package = config.boot.kernelPackages.nvidiaPackages.stable;
+	forceFullCompositionPipeline= true;
+	package = config.boot.kernelPackages.nvidiaPackages.production;
 };
 
-hardware.nvidia.forceFullCompositionPipeline = true;
+#hardware.nvidia.forceFullCompositionPipeline = true;
 
   # Configure keymap in X11
   services.xserver = {
@@ -89,10 +99,35 @@ fonts = {
 	};
 };
 
+
+boot.supportedFilesystems = [ "ntfs" ];
+
   # Enable CUPS to print documents.
   services.printing.enable = true;
 #  hardware.graphics.enable = true;
-  hardware.opengl.enable = true;
+nixpkgs.config.packageOverrides = pkgs: {
+	intel-vaapi-driver = pkgs.intel-vaapi-driver.override { enableHybridCodec = true; };
+	};
+
+boot.kernelParams = [ "i915.enable_guc=2" ];
+  hardware.opengl = {
+	enable = true;
+	extraPackages = with pkgs; [
+		mesa
+		libdrm
+		intel-media-driver
+		vaapiIntel
+		vaapiVdpau
+#		intel-vaapi-driver
+		libvdpau-va-gl
+		intel-compute-runtime
+		intel-media-sdk
+	];
+
+};
+
+
+
   # Enable sound with pipewire.
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
@@ -145,7 +180,9 @@ security.pam.loginLimits = [
     curl
    btrfs-progs
     gh
-
+ libva-utils
+	pciutils
+	glxinfo
   ];
 
 
@@ -180,7 +217,8 @@ security.pam.loginLimits = [
 #Environment variablle
 environment.sessionVariables = {
 	WLR_NO_HARDWARE_CURSORS= "1";
-#	NIXPKGS_ALLOW_UNFREE="1";	
+#	NIXPKGS_ALLOW_UNFREE="1";
+	LIBVA_DRIVER_NAME = "iHD";	
 	};
 
 }
