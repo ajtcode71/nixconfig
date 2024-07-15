@@ -14,8 +14,6 @@
 			pkgs.pcmanfm
 			pkgs.yazi
 			pkgs.wofi
-#			pkgs.hyprland
-#			pkgs.hyprpaper
 			pkgs.autotiling
 			pkgs.ardour
 			pkgs.kitty
@@ -26,6 +24,9 @@
 			pkgs.ffmpeg-full
 			pkgs.kdenlive
 			pkgs.mpv
+			pkgs.emacsPackages.doom
+			pkgs.emacsPackages.doom-themes
+			pkgs.emacsPackages.doom-modeline
 	];
 			
 	wayland.windowManager.hyprland = {
@@ -53,7 +54,6 @@
 			sww = "sway --unsupported-gpu";
 		};
 	};	
-
 
 	programs.home-manager.enable  = true;	
 	nixpkgs.config.allowUnfree = true;
