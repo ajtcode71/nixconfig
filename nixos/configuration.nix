@@ -122,7 +122,6 @@ boot.kernelParams = [ "i915.enable_guc=2" ];
 		libvdpau-va-gl
 		intel-compute-runtime
 		intel-media-sdk
-#		pkgs.onevpl--intel-gpu
 	];
 
 };
